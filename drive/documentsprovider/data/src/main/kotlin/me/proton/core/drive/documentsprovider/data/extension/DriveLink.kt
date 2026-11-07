@@ -24,6 +24,7 @@ import android.provider.DocumentsContract
 import me.proton.core.drive.base.domain.entity.toTimestampMs
 import me.proton.core.drive.documentsprovider.domain.entity.DocumentId
 import me.proton.core.drive.drivelink.domain.entity.DriveLink
+import me.proton.core.drive.drivelink.domain.extension.isShareReadOnly
 import me.proton.core.drive.link.domain.entity.Folder
 import me.proton.core.drive.link.domain.extension.userId
 
@@ -41,7 +42,8 @@ internal fun DriveLink.addTo(cursor: MatrixCursor.RowBuilder) {
                 DocumentsContract.Document.FLAG_DIR_SUPPORTS_CREATE
             },
             unmatched = {
-                DocumentsContract.Document.FLAG_SUPPORTS_WRITE
+                // Fork: writes to read-only shared files are refused, do not advertise them
+                if (isShareReadOnly) 0 else DocumentsContract.Document.FLAG_SUPPORTS_WRITE
             }
         ).addIf(this is DriveLink.File && hasThumbnail) {
             DocumentsContract.Document.FLAG_SUPPORTS_THUMBNAIL

@@ -28,5 +28,6 @@ driveModule(hilt = true) {
     api(project(":drive:upload:domain"))
 
     implementation(libs.core.key)
+    implementation(project(":drive:event-manager:base:domain"))
 }
 
