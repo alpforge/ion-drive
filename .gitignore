@@ -26,3 +26,7 @@ Logs/
 SanitizedLogs/
 sanitize_mapping.json
 
+
+# Fork: signing keys
+*.jks
+*.keystore

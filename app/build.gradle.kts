@@ -238,6 +238,8 @@ android {
         }
         create("prod") {
             versionCode = (versionCodeFromGitCommitCount * 10) + 1
+            // Fork: distinct package so it can be installed next to the official app
+            applicationId = "io.github.alpforge.iondrive"
         }
         driveSdkRustFlavors.forEach { flavor ->
             getByName(flavor) {
@@ -252,9 +254,26 @@ android {
         viewBinding = true // required by Core presentation
     }
 
+    // Fork: sign builds with a personal key when provided (see FORK.md), so that new
+    // builds install as updates over the previous one. Falls back to the debug key.
+    val forkKeystore = System.getenv("FORK_KEYSTORE_FILE")?.let { rootDir.resolve(it) }
+    if (forkKeystore != null && forkKeystore.exists()) {
+        signingConfigs {
+            create("fork") {
+                storeFile = forkKeystore
+                storePassword = System.getenv("FORK_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("FORK_KEY_ALIAS")
+                keyPassword = System.getenv("FORK_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfigs.findByName("fork")?.let { signingConfig = it }
+        }
         release {
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.findByName("fork") ?: signingConfigs.getByName("debug")
         }
     }
 
