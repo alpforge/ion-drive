@@ -24,4 +24,10 @@ internal object WorkerKeys {
     const val KEY_FOLDER_ID = "key.folderId"
     const val KEY_URI = "key.uri"
     const val KEY_SHOULD_BROADCAST_MESSAGE = "key.shouldBroadcastMessage"
+    const val KEY_FILE_ID = "key.fileId"
+    const val KEY_REVISION_ID = "key.revisionId"
+    const val KEY_FILE_PATH = "key.filePath"
+    const val KEY_IS_BASED_ON_DOWNLOADED_REVISION = "key.isBasedOnDownloadedRevision"
+    const val KEY_SUPERSEDED_REVISION_IDS = "key.supersededRevisionIds"
+    const val KEY_UPLOADED_REVISION_ID = "key.uploadedRevisionId"
 }

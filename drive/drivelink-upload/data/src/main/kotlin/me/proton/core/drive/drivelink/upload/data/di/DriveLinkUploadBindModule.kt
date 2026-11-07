@@ -22,7 +22,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import me.proton.core.drive.drivelink.upload.data.usecase.EnqueueFileRevisionUploadImpl
 import me.proton.core.drive.drivelink.upload.data.usecase.UploadFolderImpl
+import me.proton.core.drive.drivelink.upload.domain.usecase.EnqueueFileRevisionUpload
 import me.proton.core.drive.drivelink.upload.domain.usecase.UploadFolder
 
 @InstallIn(SingletonComponent::class)
@@ -30,4 +32,7 @@ import me.proton.core.drive.drivelink.upload.domain.usecase.UploadFolder
 interface DriveLinkUploadBindModule {
     @Binds
     fun bindsUploadFolder(impl: UploadFolderImpl): UploadFolder
+
+    @Binds
+    fun bindsEnqueueFileRevisionUpload(impl: EnqueueFileRevisionUploadImpl): EnqueueFileRevisionUpload
 }
